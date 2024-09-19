@@ -137,10 +137,15 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Widget _buildToggleSwitch() {
+    // Đặt kích thước cố định cho nút chuyển đổi
+    const double toggleWidth = 60.0; // Chiều rộng cố định
+    const double toggleHeight = 30.0; // Chiều cao cố định
+    const double circleSize = 24.0; // Kích thước của hình tròn bên trong
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 360),
-      width: s.width / 6,
-      height: s.width * 0.08,
+      width: toggleWidth,
+      height: toggleHeight,
       decoration: BoxDecoration(
         color: isOn == 0 ? AppColors.current.lightGrey : Colors.orange,
         borderRadius: BorderRadius.circular(40),
@@ -150,12 +155,12 @@ class _SettingPageState extends State<SettingPage> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 360),
             top: 0,
-            left: (s.width * 0.08) * isOn,
+            left: isOn == 0 ? 0 : toggleWidth - toggleHeight,
             child: Padding(
-              padding: const EdgeInsets.all(6.0),
+              padding: const EdgeInsets.all(3.0),
               child: Container(
-                width: s.width * 0.08 - 12,
-                height: s.width * 0.08 - 12,
+                width: circleSize,
+                height: circleSize,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
@@ -163,20 +168,21 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
           ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 360),
-            top: isOn == 0 ? (s.width * 0.08 - 6) / 2 : 6,
-            left: (s.width * 0.08 - 6) * isOn,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 360),
-              width: 6 + (s.width * 0.08 - 18) * isOn,
-              height: 6 + (s.width * 0.08 - 18) * isOn,
-              decoration: BoxDecoration(
-                color: isOn == 0 ? AppColors.current.lightGrey : Colors.orange,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
+          // AnimatedPositioned cho dấu hiệu nhỏ
+          // AnimatedPositioned(
+          //   duration: const Duration(milliseconds: 360),
+          //   top: isOn == 0 ? (toggleHeight - 12) / 2 : 6,
+          //   left: isOn == 0 ? 6 : toggleWidth - toggleHeight,
+          //   child: AnimatedContainer(
+          //     duration: const Duration(milliseconds: 360),
+          //     width: isOn == 0 ? 6 : toggleHeight - 18,
+          //     height: isOn == 0 ? 6 : toggleHeight - 18,
+          //     decoration: BoxDecoration(
+          //       color: isOn == 0 ? AppColors.current.lightGrey : Colors.orange,
+          //       shape: BoxShape.circle,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

@@ -228,7 +228,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                       openBottomSheet(context);
                     },
                   ),
-                  Divider(height: 8),
+                  SizedBox(height: 8),
                   InforWidget(
                       content1: '21:26:25',
                       content2: '8.08',
@@ -237,7 +237,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                       onTap: () {
                         openBottomSheet(context);
                       }),
-                  Divider(height: 8),
+                  SizedBox(height: 8),
                   InforWidget(
                     content1: '22:26:25',
                     content2: '8.08',
@@ -247,7 +247,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                       openBottomSheet(context);
                     },
                   ),
-                  Divider(height: 8),
+                  SizedBox(height: 8),
                   InforWidget(
                       content1: '23:26:25',
                       content2: '8.08',
@@ -256,7 +256,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                       onTap: () {
                         openBottomSheet(context);
                       }),
-                  Divider(height: 8),
+                  SizedBox(height: 8),
                   InforWidget(
                       content1: '19:26:25',
                       content2: '8.08',
@@ -265,7 +265,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                       onTap: () {
                         openBottomSheet(context);
                       }),
-                  Divider(height: 8),
+                  SizedBox(height: 8),
                   InforWidget(
                       content1: '20:26:25',
                       content2: '8.08',
