@@ -76,6 +76,14 @@ class $AssetsImagesGen {
   AssetGenImage get imgLogo =>
       const AssetGenImage('assets/images/img_logo.jpg');
 
+  /// File path: assets/images/img_logo_png.png
+  AssetGenImage get imgLogoPng =>
+      const AssetGenImage('assets/images/img_logo_png.png');
+
+  /// File path: assets/images/img_logo_svg.svg
+  SvgGenImage get imgLogoSvg =>
+      const SvgGenImage('assets/images/img_logo_svg.svg');
+
   /// File path: assets/images/img_qr.png
   AssetGenImage get imgQr => const AssetGenImage('assets/images/img_qr.png');
 
@@ -84,7 +92,8 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/img_user.png');
 
   /// List of all assets
-  List<dynamic> get values => [icGasStationLine, imgLogo, imgQr, imgUser];
+  List<dynamic> get values =>
+      [icGasStationLine, imgLogo, imgLogoPng, imgLogoSvg, imgQr, imgUser];
 }
 
 class Assets {

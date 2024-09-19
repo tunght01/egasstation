@@ -1,3 +1,4 @@
+import 'package:egasstation/global/themes/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../design_system/app_loading_widget.dart';
@@ -54,16 +55,17 @@ class LoadingPercentWidget extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Positioned.fill(
-              child: CircularProgressIndicator(
-            strokeWidth: 2,
-            value: percent / 100,
-            backgroundColor: Colors.white,
-            color: Colors.blue,
-          )),
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              value: percent / 100,
+              backgroundColor: AppColors.current.whiteColor,
+              color: AppColors.current.orangeColor,
+            ),
+          ),
           Text(
             '$percent%',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.blue,
+                  color: AppColors.current.orangeColor,
                 ),
           )
         ],

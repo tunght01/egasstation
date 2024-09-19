@@ -93,10 +93,7 @@ class _SignInPageState extends State<SignInPage>
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              Assets.images.imgLogo.image(
-                width: 200,
-                height: 100,
-              ),
+              Assets.images.imgLogoPng.image(width: 200, height: 100),
               Container(
                 padding: kPadding[0],
                 child: Form(
@@ -127,28 +124,31 @@ class _SignInPageState extends State<SignInPage>
                         ),
                       ),
                       kSpacingHeight16,
-                      Row(
-                        children: [
-                          Theme(
-                            data: ThemeData(
-                              unselectedWidgetColor: AppColors.current.grayColor,
+                      SlideTransition(
+                        position: _passFieldAnimation,
+                        child: Row(
+                          children: [
+                            Theme(
+                              data: ThemeData(
+                                unselectedWidgetColor: AppColors.current.grayColor,
+                              ),
+                              child: Checkbox(
+                                value: _bloc.rememberMe,
+                                checkColor: AppColors.current.whiteColor,
+                                activeColor: AppColors.current.primaryColor,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _bloc.setRememberMe(value!);
+                                  });
+                                },
+                              ),
                             ),
-                            child: Checkbox(
-                              value: _bloc.rememberMe,
-                              checkColor: AppColors.current.whiteColor,
-                              activeColor: AppColors.current.primaryColor,
-                              onChanged: (value) {
-                                setState(() {
-                                  _bloc.setRememberMe(value!);
-                                });
-                              },
+                            Text(
+                              'Lưu đăng nhập',
+                              style: AppTextStyle.bodySemiBold14(),
                             ),
-                          ),
-                          Text(
-                            'Lưu đăng nhập',
-                            style: AppTextStyle.bodySemiBold14(),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       kSpacingHeight16,
                       SlideTransition(
@@ -169,7 +169,7 @@ class _SignInPageState extends State<SignInPage>
                           borderRadius: BorderRadius.circular(20),
                           color: AppColors.current.orangeColor,
                           title: 'ĐĂNG NHẬP',
-                          titleColor: AppColors.current.whiteColor,
+                          titleColor: AppColors.current.whiteColorLock,
                         ),
                       ),
                     ],
@@ -177,7 +177,7 @@ class _SignInPageState extends State<SignInPage>
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2, // Khoảng trống phía dưới
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
             ],
           ),

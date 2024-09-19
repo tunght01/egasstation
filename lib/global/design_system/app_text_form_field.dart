@@ -321,7 +321,7 @@ class AppTextFormField extends FormField<String> {
                         labelStyle: Theme.of(state.context)
                             .textTheme
                             .bodyMedium
-                            ?.copyWith(color: Colors.black),
+                            ?.copyWith(color: AppColors.current.blackColor),
                         prefixIcon: prefixIcon,
                         contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                         enabledBorder: OutlineInputBorder(
@@ -344,12 +344,14 @@ class AppTextFormField extends FormField<String> {
                             ? Padding(
                                 padding: const EdgeInsets.all(2.5),
                                 child: Material(
-                                  color: fillColor ?? const Color(0xffededed),
+                                  color: fillColor ?? AppColors.current.bgCardColor,
                                   child: InkResponse(
                                     radius: 21,
                                     child: state._obscureText
-                                        ? Icon(Icons.visibility_off, color: Colors.black)
-                                        : Icon(Icons.visibility, color: Colors.black),
+                                        ? Icon(Icons.visibility_off,
+                                            color: AppColors.current.blackColor)
+                                        : Icon(Icons.visibility,
+                                            color: AppColors.current.blackColor),
                                     onTap: () {
                                       state.onChangeObscureText();
                                     },

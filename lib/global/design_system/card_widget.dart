@@ -25,7 +25,7 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.current.bgCardColor,
       elevation: elevation,
       shadowColor: shadowColor ?? Colors.black.withOpacity(0.2),
       borderRadius: border ?? BorderRadius.circular(12),
@@ -35,7 +35,7 @@ class CardWidget extends StatelessWidget {
           padding: padding,
           decoration: BoxDecoration(
             borderRadius: border ?? BorderRadius.circular(12),
-            color: color ?? AppColors.current.bgCardColor,
+            color: color ?? AppColors.current.whiteColor,
           ),
           child: child,
         ),

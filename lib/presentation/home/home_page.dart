@@ -1,6 +1,9 @@
+import 'package:egasstation/global/design_system/gradient_appbar.dart';
 import 'package:egasstation/global/themes/styles/app_colors.dart';
 import 'package:egasstation/global/themes/styles/app_text_styles.dart';
 import 'package:egasstation/presentation/home/widget/dialog_widget.dart';
+import 'package:egasstation/presentation/home/widget/widget_info.dart';
+import 'package:egasstation/presentation/setting/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,26 +53,21 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
   void _selectMenu(String title) {
     setState(() {
       _selectedMenu = title;
-      _toggleDrawer(); // Đóng drawer khi nhấp vào mục
+      _toggleDrawer();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          _selectedMenu.isNotEmpty ? _selectedMenu : 'Home',
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.indigo),
-        ),
+      appBar: const GradientAppBar(
+        label: 'Home',
       ),
       body: Stack(
         children: [
           GestureDetector(
             onHorizontalDragUpdate: (details) {
               if (details.primaryDelta! > 0) {
-                // Vuốt phải
                 if (!_isDrawerOpen) {
                   _toggleDrawer();
                 }
@@ -102,13 +100,15 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
       top: 0,
       bottom: 0,
       child: Material(
+        color: AppColors.current.whiteColor,
         elevation: 4.0,
         child: Container(
           width: 120,
-          color: AppColors.current.bgCardColor,
+          color: AppColors.current.whiteColor,
           child: Column(
             children: [
-              Expanded(
+              Flexible(
+                flex: 9,
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
@@ -119,6 +119,29 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                     _buildDrawerItem('Vòi 5', 'Xăng RON 95 - III'),
                     _buildDrawerItem('Vòi 6', 'DO 0.05S'),
                   ],
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    openBottomSheetSetting(context);
+                  },
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: AppColors.current.blueColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        color: AppColors.current.whiteColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -137,8 +160,9 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
         child: Card(
           margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+              borderRadius: isSelected
+                  ? BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))
+                  : BorderRadius.circular(8.0)),
           elevation: 4.0,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
@@ -149,8 +173,8 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                   title,
                   style: AppTextStyle.bodyBold14().copyWith(
                     color: isSelected
-                        ? AppColors.current.secondaryColor
-                        : AppColors.current.blackColor,
+                        ? AppColors.current.orangeColor
+                        : AppColors.current.secondaryColor,
                   ),
                   maxLines: 1,
                   textAlign: TextAlign.center,
@@ -161,8 +185,8 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                   subtitle,
                   style: AppTextStyle.bodyBold10().copyWith(
                     color: isSelected
-                        ? AppColors.current.secondaryColor
-                        : AppColors.current.blackColor,
+                        ? AppColors.current.orangeColor
+                        : AppColors.current.secondaryColor,
                   ),
                   maxLines: 1,
                   textAlign: TextAlign.center,
@@ -177,84 +201,110 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
   }
 
   Widget _buildBody() {
-    return Stack(
+    return Column(
       children: [
-        ListView.separated(
-          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-          itemBuilder: (_, index) => const InforWidget(),
-          separatorBuilder: (_, __) => const Divider(height: 8),
-          itemCount: 10,
-        ),
-        Positioned(
-          left: 0,
-          top: MediaQuery.of(context).size.height / 2 - 150,
-          child: GestureDetector(
-            onTap: _toggleDrawer,
-            child: Container(
-              width: 8,
-              height: 80,
-              decoration: BoxDecoration(
-                color: AppColors.current.bgCardColor,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.grey,
-                  size: 8,
-                ),
-              ),
-            ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: InforWidget(
+            content1: 'Thời gian',
+            content2: 'Số lít',
+            content3: 'Số tiền',
+            content4: 'Trạng thái',
+            isBanner: true,
           ),
-        )
-      ],
-    );
-  }
-}
-
-class InforWidget extends StatelessWidget {
-  const InforWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        openBottomSheet(context);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(width: 0.5),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Expanded(
+          child: Stack(
             children: [
-              Text(
-                'Thời gian',
-                style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+              ListView(
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                children: <Widget>[
+                  InforWidget(
+                    content1: '20:26:25',
+                    content2: '8.08',
+                    content3: '80,172',
+                    content4: 'Chưa gán',
+                    onTap: () {
+                      openBottomSheet(context);
+                    },
+                  ),
+                  Divider(height: 8),
+                  InforWidget(
+                      content1: '21:26:25',
+                      content2: '8.08',
+                      content3: '80,172',
+                      content4: 'Chưa gán',
+                      onTap: () {
+                        openBottomSheet(context);
+                      }),
+                  Divider(height: 8),
+                  InforWidget(
+                    content1: '22:26:25',
+                    content2: '8.08',
+                    content3: '80,172',
+                    content4: 'Chưa gán',
+                    onTap: () {
+                      openBottomSheet(context);
+                    },
+                  ),
+                  Divider(height: 8),
+                  InforWidget(
+                      content1: '23:26:25',
+                      content2: '8.08',
+                      content3: '80,172',
+                      content4: 'Chưa gán',
+                      onTap: () {
+                        openBottomSheet(context);
+                      }),
+                  Divider(height: 8),
+                  InforWidget(
+                      content1: '19:26:25',
+                      content2: '8.08',
+                      content3: '80,172',
+                      content4: 'Chưa gán',
+                      onTap: () {
+                        openBottomSheet(context);
+                      }),
+                  Divider(height: 8),
+                  InforWidget(
+                      content1: '20:26:25',
+                      content2: '8.08',
+                      content3: '80,172',
+                      content4: 'Chưa gán',
+                      onTap: () {
+                        openBottomSheet(context);
+                      }),
+                ],
               ),
-              Text(
-                'Số lít',
-                style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Số tiền',
-                style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Trạng thái',
-                style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+              Positioned(
+                left: 0,
+                top: MediaQuery.of(context).size.height / 2 - 150,
+                child: GestureDetector(
+                  onTap: _toggleDrawer,
+                  child: Container(
+                    width: 10,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: AppColors.current.bgCardColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: AppColors.current.blackColor,
+                        size: 10,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

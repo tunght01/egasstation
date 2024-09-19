@@ -19,6 +19,8 @@ import '../domain/repository/auth_repository.dart' as _i306;
 import '../global/navigator/navigation/navigation.dart' as _i736;
 import '../global/navigator/navigation/navigation_impl.dart' as _i212;
 import '../global/navigator/router/router_observer.dart' as _i660;
+import '../global/socket/socket_data_center.dart' as _i468;
+import '../presentation/bloc/theme_app_cubit.dart' as _i991;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt init(
@@ -32,7 +34,9 @@ _i174.GetIt init(
     environmentFilter,
   );
   gh.factory<_i660.AppRouteObserver>(() => _i660.AppRouteObserver());
+  gh.factory<_i991.ThemeCubit>(() => _i991.ThemeCubit());
   gh.lazySingleton<_i903.ApiService>(() => _i903.ApiService());
+  gh.lazySingleton<_i468.SocketDataCenter>(() => _i468.SocketDataCenter());
   gh.lazySingleton<_i736.Navigation>(() => _i212.NavigationImpl());
   gh.factory<_i306.AuthRepository>(() => _i970.RepositoryImpl());
   gh.factory<_i5.LocalService>(
