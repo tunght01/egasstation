@@ -1,9 +1,8 @@
 import 'package:egasstation/global/navigator/router/router_module.dart';
 import 'package:egasstation/presentation/main/main_page.dart';
+import 'package:egasstation/presentation/sign_in/sign_in_page.dart';
 import 'package:egasstation/presentation/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../../presentation/sign_in/sign_in_page.dart';
 
 class AppRouter extends RouterModule {
   AppRouter();
@@ -30,3 +29,9 @@ class AppRouter extends RouterModule {
     };
   }
 }
+// AppRouter.signIn: MaterialPageRoute(
+//   builder: (context) => BlocProvider<ThemeCubit>.value(
+//     value: BlocProvider.of<ThemeCubit>(context), // Pass the ThemeCubit down
+//     child: SettingPage(),
+//   ),
+// ),

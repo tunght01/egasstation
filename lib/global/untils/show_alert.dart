@@ -1,3 +1,4 @@
+import 'package:egasstation/global/themes/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -63,10 +64,10 @@ class ShowAlert {
           fontWeight: FontWeight.w400,
           color: Colors.black87,
         ),
-        titleStyle: const TextStyle(
+        titleStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: AppColors.current.blackColor,
         ),
         animationDuration: const Duration(milliseconds: 400),
         alertPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -76,7 +77,7 @@ class ShowAlert {
             color: Colors.orangeAccent, // Border color to match the orange theme
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.current.whiteColor,
         overlayColor: Colors.black54, // Dimmed background for a modern look
       ),
       type: _alertType,

@@ -1,3 +1,4 @@
+import 'package:egasstation/global/themes/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DividerCustom extends StatelessWidget {
@@ -5,20 +6,20 @@ class DividerCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         Expanded(
           flex: 1,
           child: Divider(
             height: 1,
-            color: Colors.white,
+            color: Colors.transparent,
           ),
         ),
         Expanded(
-          flex: 9,
+          flex: 8,
           child: Divider(
             height: 1,
-            color: Color(0xFFDBDBDD),
+            color: AppColors.current.lightGrey,
           ),
         ),
       ],

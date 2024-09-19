@@ -21,7 +21,5 @@ Future<void> main() async {
     });
 
     ///[console] flavor running hidden when release mode
-  }, (error, stackTrace) {
-    // FirebaseCrashlytics.instance.recordError(error, stackTrace);
-  });
+  }, (error, stackTrace) {});
 }

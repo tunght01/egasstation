@@ -1,3 +1,4 @@
+import 'package:egasstation/global/themes/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../global/constants/app_constants.dart';
@@ -49,7 +50,8 @@ class InfoWidget extends StatelessWidget {
           if (content != null)
             Text(
               content ?? '',
-              style: contentStyle ?? AppTextStyle.bodyBold12().copyWith(color: Colors.indigo),
+              style: contentStyle ??
+                  AppTextStyle.bodyBold12().copyWith(color: AppColors.current.secondaryColor),
               overflow: TextOverflow.ellipsis,
             ),
         ],

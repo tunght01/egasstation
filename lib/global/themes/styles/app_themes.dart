@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../dimens/demens.dart';
 import 'app_colors.dart';
@@ -18,9 +19,30 @@ extension ThemeDataExtensions on ThemeData {
   }
 }
 
+// class AppThemeSetting {
+//   const AppThemeSetting._();
+//   static AppThemeType currentAppThemeType = AppThemeType.light;
+// }
+
 class AppThemeSetting {
-  const AppThemeSetting._();
-  static AppThemeType currentAppThemeType = AppThemeType.light;
+  static const String _keyThemeType = 'theme_type';
+
+  static AppThemeType _currentAppThemeType = AppThemeType.light;
+
+  static AppThemeType get currentAppThemeType => _currentAppThemeType;
+
+  static Future<void> loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedThemeType = prefs.getString(_keyThemeType);
+    _currentAppThemeType = AppThemeType.values
+        .firstWhere((e) => e.toString() == savedThemeType, orElse: () => AppThemeType.light);
+  }
+
+  static Future<void> saveTheme(AppThemeType themeType) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyThemeType, themeType.toString());
+    _currentAppThemeType = themeType;
+  }
 }
 
 /// define custom themes here

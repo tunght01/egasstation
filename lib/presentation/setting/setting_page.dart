@@ -1,7 +1,9 @@
 import 'package:egasstation/global/constants/app_constants.dart';
+import 'package:egasstation/global/design_system/app_divider.dart';
 import 'package:egasstation/global/design_system/card_widget.dart';
-import 'package:egasstation/presentation/setting/theme_provider.dart';
+import 'package:egasstation/global/design_system/gradient_appbar.dart';
 import 'package:egasstation/presentation/setting/widget/divider_custom.dart';
+import 'package:egasstation/presentation/sign_in/bloc/Auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ import '../../global/navigator/navigation/navigation.dart';
 import '../../global/navigator/router/app_router.dart';
 import '../../global/themes/styles/app_colors.dart';
 import '../../global/themes/styles/app_text_styles.dart';
-// Adjust the import based on your project structure
+import '../bloc/theme_app_cubit.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -23,8 +25,15 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  late AuthBloc _bloc;
   Size get s => MediaQuery.of(context).size;
   int isOn = 0;
+
+  @override
+  void initState() {
+    _bloc = context.read();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,38 +41,36 @@ class _SettingPageState extends State<SettingPage> {
     isOn = _darkModeEnabled ? 1 : 0;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Cài đặt",
-          style: TextStyle(color: Colors.indigo),
-        ),
-        backgroundColor: Colors.white,
+      appBar: GradientAppBar(
+        label: "Cài đặt",
+        backgroundColor: AppColors.current.whiteColor,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              _buildUserInfo(),
-              const Divider(height: 1, color: Color(0xFFDBDBDD)),
-              _buildDarkModeToggle(),
+              _buildUserInfo(_bloc.userName),
+              const AppDivider(),
+              _buildDarkModeToggle(context),
               const DividerCustom(),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: GestureDetector(
                   onTap: () {
-                    _openBottomSheet(context);
+                    openBottomSheetSetting(context);
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Assets.icons.icGasStationLine.image(width: 20, height: 20),
+                      Assets.icons.icGasStationLine
+                          .image(width: 20, height: 20, color: AppColors.current.secondaryColor),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Cấu hình vòi bơm', style: AppTextStyle.bodyBold14()),
-                            const Icon(Icons.arrow_forward_ios, color: Colors.indigo),
+                            Icon(Icons.arrow_forward_ios, color: AppColors.current.secondaryColor),
                           ],
                         ),
                       ),
@@ -83,25 +90,26 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-  Widget _buildUserInfo() {
+  Widget _buildUserInfo(String username) {
     return Column(
       children: [
-        Assets.images.imgUser.image(width: 100, color: Colors.indigo),
+        Assets.images.imgUser.image(width: 100, color: AppColors.current.secondaryColor),
         const SizedBox(height: 8),
-        Text('5000080', style: AppTextStyle.bodyBold16()),
+        Text(username,
+            style: AppTextStyle.bodyBold16().copyWith(color: AppColors.current.blackColor)),
         const SizedBox(height: 4),
-        Text('5000080', style: AppTextStyle.bodyRegular16()),
+        Text(username, style: AppTextStyle.bodyRegular16()),
         const SizedBox(height: 8),
       ],
     );
   }
 
-  Widget _buildDarkModeToggle() {
+  Widget _buildDarkModeToggle(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Row(
         children: [
-          Assets.icons.icMoon.image(width: 20, height: 20, color: Colors.indigo),
+          Assets.icons.icMoon.image(width: 20, height: 20, color: AppColors.current.secondaryColor),
           const SizedBox(width: 8),
           Expanded(
             child: Row(
@@ -111,7 +119,9 @@ class _SettingPageState extends State<SettingPage> {
                 GestureDetector(
                   onTap: () {
                     HapticFeedback.mediumImpact();
-                    Provider.of<ThemeProvider>(context, listen: false).toggleMode();
+
+                    context.read<ThemeCubit>().toggleTheme();
+
                     setState(() {
                       isOn = isOn == 0 ? 1 : 0;
                     });
@@ -177,14 +187,15 @@ class _SettingPageState extends State<SettingPage> {
       padding: const EdgeInsets.all(12.0),
       child: Row(
         children: [
-          Assets.icons.icOcticonVersions16.image(width: 20, height: 20),
+          Assets.icons.icOcticonVersions16
+              .image(width: 20, height: 20, color: AppColors.current.secondaryColor),
           const SizedBox(width: 8),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Phiên bản', style: AppTextStyle.bodyBold14()),
-                const Text('0.0.1', style: TextStyle(color: Colors.indigo)),
+                Text('0.0.1', style: TextStyle(color: AppColors.current.secondaryColor)),
               ],
             ),
           ),
@@ -220,7 +231,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-void _openBottomSheet(BuildContext context) {
+void openBottomSheetSetting(BuildContext context) {
   List<String> listNameGas = [
     'DO 0.05S',
     'Xăng RON95-III',
@@ -233,7 +244,7 @@ void _openBottomSheet(BuildContext context) {
     context: context,
     scrollControlDisabledMaxHeightRatio: 0.9,
     enableDrag: false,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.current.whiteColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(16.0), // Tùy chỉnh bo tròn góc trên
@@ -244,13 +255,12 @@ void _openBottomSheet(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Header with title and close button
           Row(
             children: [
-              const IconButton(
+              IconButton(
                 icon: Icon(
                   Icons.close,
-                  color: Colors.white,
+                  color: AppColors.current.whiteColor,
                 ),
                 onPressed: null,
               ),
@@ -296,8 +306,12 @@ void _openBottomSheet(BuildContext context) {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Icon(Icons.check_box_outline_blank_outlined,
-                    color: AppColors.current.secondaryColor),
+                Checkbox(
+                  value: true,
+                  checkColor: AppColors.current.whiteColor,
+                  activeColor: AppColors.current.secondaryColor,
+                  onChanged: (value) {},
+                ),
                 kSpacingWidth6,
               ],
             ),
@@ -322,11 +336,21 @@ void _openBottomSheet(BuildContext context) {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 36),
-                  backgroundColor: AppColors.current.secondaryColor),
-              child: Text(
-                'Xác nhận',
-                style: AppTextStyle.bodyRegular12().copyWith(color: Colors.white),
+                backgroundColor: AppColors.current.indigoColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                minimumSize: const Size(double.infinity, 20),
+                padding: EdgeInsets.zero,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                child: Text(
+                  'Xác nhận',
+                  style:
+                      AppTextStyle.bodyBold16().copyWith(color: AppColors.current.whiteColorLock),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -344,19 +368,19 @@ class CardVoiBom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardWidget(
-      color: const Color(0xFFCDF5CB),
+      color: AppColors.current.greenLight,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 5.0, right: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Assets.icons.icGasStationLine.image(),
+            Assets.icons.icGasStationLine.image(color: AppColors.current.secondaryColor),
             kSpacingWidth8,
             Expanded(
               flex: 3,
               child: Text(
                 pumpHoseNumber,
-                style: AppTextStyle.bodyBold16(),
+                style: AppTextStyle.bodyMedium14(),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -365,12 +389,17 @@ class CardVoiBom extends StatelessWidget {
               flex: 4,
               child: Text(
                 nameGas,
-                style: AppTextStyle.bodyBold16(),
+                style: AppTextStyle.bodyMedium14(),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             kSpacingWidth8,
-            Icon(Icons.check_box, color: AppColors.current.secondaryColor),
+            Checkbox(
+              value: true,
+              checkColor: AppColors.current.whiteColor,
+              activeColor: AppColors.current.secondaryColor,
+              onChanged: (value) {},
+            ),
           ],
         ),
       ),

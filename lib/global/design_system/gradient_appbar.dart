@@ -45,7 +45,7 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? Text(
               label!,
               style: AppTextStyle.bodySemiBold18(
-                color: labelColor ?? AppColors.current.whiteColor,
+                color: labelColor ?? AppColors.current.secondaryColor,
               ),
             )
           : title,
@@ -54,12 +54,7 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle ?? true,
       bottom: bottom,
       flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: <Color>[AppColors.current.primaryColor, AppColors.current.secondaryColor]),
-        ),
+        decoration: BoxDecoration(color: AppColors.current.whiteColor),
       ),
     );
   }
